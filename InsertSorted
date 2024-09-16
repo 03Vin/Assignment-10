@@ -1,0 +1,57 @@
+#include <iostream>
+
+struct Node {
+    int data;
+    Node* next;
+};
+
+void insertNode(Node** head, int value) {
+    Node* newNode = new Node();
+    newNode->data = value;
+    newNode->next = nullptr;
+
+    if (*head == nullptr || (*head)->data >= value) {
+        newNode->next = *head;
+        *head = newNode;
+    } else {
+        Node* current = *head;
+        while (current->next != nullptr && current->next->data < value) {
+            current = current->next;
+        }
+        newNode->next = current->next;
+        current->next = newNode;
+    }
+}
+
+void printList(Node* head) {
+    while (head != nullptr) {
+        std::cout << head->data << "->";
+        head = head->next;
+    }
+    std::cout << "nullptr" << std::endl;
+}
+
+int main() {
+    Node* head = nullptr;
+
+    int n;
+    std::cout << "Enter the number of nodes: ";
+    std::cin >> n;
+
+    for (int i = 0; i < n; i++) {
+        int value;
+        std::cout << "Enter node " << i + 1 << " value: ";
+        std::cin >> value;
+        insertNode(&head, value);
+    }
+
+    int newValue;
+    std::cout << "Enter the value to insert: ";
+    std::cin >> newValue;
+    insertNode(&head, newValue);
+
+    std::cout << "Sorted linked list: ";
+    printList(head);
+
+    return 0;
+}
